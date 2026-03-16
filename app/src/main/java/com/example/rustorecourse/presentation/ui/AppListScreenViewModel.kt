@@ -3,9 +3,9 @@ package com.example.rustorecourse.presentation.ui
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.rustorecourse.domain.AppDetailsItem
+import com.example.rustorecourse.domain.model.AppDetailsItem
 
-class MainViewModel : ViewModel() {
+class AppListScreenViewModel : ViewModel() {
 
     private val _apps = mutableStateOf<List<AppDetailsItem>>(emptyList())
     val apps: State<List<AppDetailsItem>> = _apps
@@ -14,7 +14,7 @@ class MainViewModel : ViewModel() {
         loadApps()
     }
 
-    fun loadApps() {
+    private fun loadApps() {
         _apps.value = listOf(
             AppDetailsItem(
                 appName = "СберБанк Онлайн - с Салютом",

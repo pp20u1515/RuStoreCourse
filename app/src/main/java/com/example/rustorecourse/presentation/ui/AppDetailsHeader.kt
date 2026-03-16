@@ -24,8 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.rustorecourse.R
-import com.example.rustorecourse.domain.App
-import com.example.rustorecourse.domain.Category
+import com.example.rustorecourse.domain.model.App
+import com.example.rustorecourse.domain.model.Category
 import com.example.rustorecourse.ui.theme.RuStoreCourseTheme
 import kotlin.math.roundToInt
 

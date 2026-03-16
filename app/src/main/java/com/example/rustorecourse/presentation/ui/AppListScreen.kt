@@ -16,12 +16,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.rustorecourse.domain.AppDetailsItem
+import com.example.rustorecourse.domain.model.AppDetailsItem
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -30,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.launch
 
 @Composable
 fun AppDetails(
@@ -75,17 +81,32 @@ fun AppDetails(
 
 @Composable
 fun MainScreenContent(onItemClick: () -> Unit){
-    val viewModel: MainViewModel = viewModel()
+    val viewModel: AppListScreenViewModel = viewModel()
     val apps by viewModel.apps
 
-    Scaffold(modifier = Modifier.fillMaxSize()) { paddingValues ->
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
                 .background(Color(0xFF0077FF))
         ) {
-            Toolbar()
+            Toolbar(
+                onLogoClick = {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = "Вы нажали на логотип RuStore",
+                            duration = SnackbarDuration.Short
+                        )
+                    }
+                }
+            )
             Column(
                 modifier = Modifier
                     .fillMaxSize()
