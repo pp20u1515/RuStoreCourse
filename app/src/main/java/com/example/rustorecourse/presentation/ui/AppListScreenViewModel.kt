@@ -4,11 +4,17 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.rustorecourse.domain.model.AppDetailsItem
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 
 class AppListScreenViewModel : ViewModel() {
 
     private val _apps = mutableStateOf<List<AppDetailsItem>>(emptyList())
     val apps: State<List<AppDetailsItem>> = _apps
+
+    private val _event = MutableSharedFlow<UIEvent>(replay = 1)
+    val event: SharedFlow<UIEvent> = _event.asSharedFlow()
 
     init {
         loadApps()
@@ -53,5 +59,13 @@ class AppListScreenViewModel : ViewModel() {
                 icon = "https://apktake.com/storage/45fe7c4d0a9c4104b3157fea2f233ad5/6431e71f0b70bApkTake.com.png"
             )
         )
+    }
+
+    fun onLogoClick() {
+        _event.tryEmit(UIEvent.ShowSnackbar("Вы нажали на логотип RuStore"))
+    }
+
+    sealed class UIEvent {
+        data class ShowSnackbar(val message: String) : UIEvent()
     }
 }

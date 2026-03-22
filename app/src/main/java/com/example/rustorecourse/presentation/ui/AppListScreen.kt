@@ -25,6 +25,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -87,6 +88,21 @@ fun MainScreenContent(onItemClick: () -> Unit){
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
+    LaunchedEffect(Unit) {
+        viewModel.event.collect { event ->
+            when (event) {
+                is AppListScreenViewModel.UIEvent.ShowSnackbar -> {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = event.message,
+                            duration = SnackbarDuration.Short
+                        )
+                    }
+                }
+            }
+        }
+    }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
@@ -99,12 +115,7 @@ fun MainScreenContent(onItemClick: () -> Unit){
         ) {
             Toolbar(
                 onLogoClick = {
-                    scope.launch {
-                        snackbarHostState.showSnackbar(
-                            message = "Вы нажали на логотип RuStore",
-                            duration = SnackbarDuration.Short
-                        )
-                    }
+                    viewModel.onLogoClick()
                 }
             )
             Column(
