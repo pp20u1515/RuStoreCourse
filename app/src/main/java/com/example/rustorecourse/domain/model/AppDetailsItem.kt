@@ -1,4 +1,4 @@
-package com.example.rustorecourse.domain
+package com.example.rustorecourse.domain.model
 
 data class AppDetailsItem(
     val appName: String,
