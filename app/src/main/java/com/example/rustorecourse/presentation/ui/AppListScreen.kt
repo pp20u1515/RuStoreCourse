@@ -2,6 +2,7 @@ package com.example.rustorecourse.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,15 +18,15 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.rustorecourse.domain.model.AppDetailsItem
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -37,7 +38,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
-
+import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 fun AppDetails(
     modifier: Modifier = Modifier,
@@ -81,9 +82,11 @@ fun AppDetails(
 }
 
 @Composable
-fun MainScreenContent(onItemClick: () -> Unit){
-    val viewModel: AppListScreenViewModel = viewModel()
-    val apps by viewModel.apps
+fun MainScreenContent(
+    onItemClick: (AppDetailsItem) -> Unit
+){
+    val viewModel: AppListScreenViewModel = hiltViewModel()
+    val appListScreenState by viewModel.appListScreenState.collectAsState()
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -118,35 +121,87 @@ fun MainScreenContent(onItemClick: () -> Unit){
                     viewModel.onLogoClick()
                 }
             )
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clip(
-                        RoundedCornerShape(
-                            topStart = 20.dp,
-                            topEnd = 20.dp,
-                            bottomStart = 0.dp,
-                            bottomEnd = 0.dp
-                        )
+
+            when (appListScreenState) {
+                is AppListScreenViewModel.AppListScreenState.Loading -> {
+                    LoadingScreen()
+                }
+                is AppListScreenViewModel.AppListScreenState.Success -> {
+                    AppListContent(
+                        apps = (appListScreenState as AppListScreenViewModel.AppListScreenState.Success).listOfApps,
+                        onItemClick = onItemClick
                     )
-                    .background(Color.White)
-            ) {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) {
-                    items(apps, key = { it.appName }) { app ->
-                        AppDetails(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            appDetails = app,
-                            onItemClick = {
-                                onItemClick()
-                            }
-                        )
-                    }
+                }
+                is AppListScreenViewModel.AppListScreenState.Error -> {
+                    ErrorScreen(
+                        message = (appListScreenState as AppListScreenViewModel.AppListScreenState.Error).message
+                    )
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun AppListContent(
+    apps: List<AppDetailsItem>,
+    onItemClick: (AppDetailsItem) -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .clip(
+                RoundedCornerShape(
+                    topStart = 20.dp,
+                    topEnd = 20.dp,
+                    bottomStart = 0.dp,
+                    bottomEnd = 0.dp
+                )
+            )
+            .background(Color.White)
+    ) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            items(apps, key = { it.appName }) { app ->
+                AppDetails(
+                    modifier = Modifier.fillMaxWidth(),
+                    appDetails = app,
+                    onItemClick = onItemClick
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun LoadingScreen() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
+@Composable
+fun ErrorScreen(
+    message: String
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(
+                text = message,
+                color = Color.Red,
+                modifier = Modifier.padding(16.dp)
+            )
         }
     }
 }

@@ -26,12 +26,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.rustorecourse.R
 
 @Composable
 fun AppDetailsScreen() {
-    val viewModel: AppDetailsScreenViewModel = viewModel()
+    val viewModel: AppDetailsScreenViewModel = hiltViewModel()
     val appDetailsState = viewModel.appDetailsState.collectAsState().value
 
     val context = LocalContext.current
