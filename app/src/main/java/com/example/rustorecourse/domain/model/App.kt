@@ -1,7 +1,5 @@
 package com.example.rustorecourse.domain.model
 
-import com.example.rustorecourse.domain.model.Category
-
 data class App(
     val name: String,
     val developer: String,
