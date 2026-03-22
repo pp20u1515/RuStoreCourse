@@ -1,7 +1,7 @@
-package com.example.rustorecourse.data.datasource.local.service
+package com.example.rustorecourse.data.source.local.service
 
-import com.example.rustorecourse.data.datasource.local.entity.AppDetailsItemEntity
-import com.example.rustorecourse.data.datasource.local.entity.AppEntity
+import com.example.rustorecourse.data.source.local.entity.AppDetailsItemEntity
+import com.example.rustorecourse.data.source.local.entity.AppEntity
 import com.example.rustorecourse.domain.model.Category
 import javax.inject.Inject
 

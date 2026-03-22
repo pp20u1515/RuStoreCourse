@@ -1,4 +1,4 @@
-package com.example.rustorecourse.data.datasource.local.entity
+package com.example.rustorecourse.data.source.local.entity
 
 data class AppDetailsItemEntity(
     val appName: String,

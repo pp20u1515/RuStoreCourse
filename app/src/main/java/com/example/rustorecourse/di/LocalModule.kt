@@ -1,6 +1,6 @@
 package com.example.rustorecourse.di
 
-import com.example.rustorecourse.data.datasource.local.service.AppDaoService
+import com.example.rustorecourse.data.source.local.service.AppDaoService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

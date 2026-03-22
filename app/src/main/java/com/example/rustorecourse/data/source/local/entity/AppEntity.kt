@@ -1,4 +1,4 @@
-package com.example.rustorecourse.data.datasource.local.entity
+package com.example.rustorecourse.data.source.local.entity
 
 import com.example.rustorecourse.domain.model.Category
 

@@ -1,7 +1,7 @@
 package com.example.rustorecourse.data.repository
 
-import com.example.rustorecourse.data.datasource.local.mapper.toDomain
-import com.example.rustorecourse.data.datasource.local.service.AppDaoService
+import com.example.rustorecourse.data.source.local.mapper.toDomain
+import com.example.rustorecourse.data.source.local.service.AppDaoService
 import com.example.rustorecourse.domain.model.App
 import com.example.rustorecourse.domain.model.AppDetailsItem
 import com.example.rustorecourse.domain.repository.IAppRepository

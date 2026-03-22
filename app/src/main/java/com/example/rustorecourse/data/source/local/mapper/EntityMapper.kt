@@ -1,8 +1,8 @@
-package com.example.rustorecourse.data.datasource.local.mapper
+package com.example.rustorecourse.data.source.local.mapper
 
-import com.example.rustorecourse.data.datasource.local.entity.AppDetailsItemEntity
+import com.example.rustorecourse.data.source.local.entity.AppDetailsItemEntity
 import com.example.rustorecourse.domain.model.App
-import com.example.rustorecourse.data.datasource.local.entity.AppEntity
+import com.example.rustorecourse.data.source.local.entity.AppEntity
 import com.example.rustorecourse.domain.model.AppDetailsItem
 
 fun AppEntity.toDomain(): App = App(

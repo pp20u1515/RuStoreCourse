@@ -1,6 +1,6 @@
 package com.example.rustorecourse.di
 
-import com.example.rustorecourse.data.datasource.local.service.AppDaoService
+import com.example.rustorecourse.data.source.local.service.AppDaoService
 import com.example.rustorecourse.data.repository.AppRepository
 import com.example.rustorecourse.domain.repository.IAppRepository
 import com.example.rustorecourse.domain.usecase.GetAppUseCase
