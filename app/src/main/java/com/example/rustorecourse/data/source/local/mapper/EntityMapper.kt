@@ -6,6 +6,7 @@ import com.example.rustorecourse.data.source.local.entity.AppEntity
 import com.example.rustorecourse.domain.model.AppDetailsItem
 
 fun AppEntity.toDomain(): App = App(
+    id = id,
     name = name,
     developer = developer,
     category = category,
@@ -17,13 +18,15 @@ fun AppEntity.toDomain(): App = App(
 )
 
 fun AppDetailsItemEntity.toDomain(): AppDetailsItem = AppDetailsItem(
-    appName = appName,
+    id = id,
+    name = name,
     description = description,
     category = category,
-    icon = icon
+    iconUrl = iconUrl
 )
 
 fun App.toEntity(): AppEntity = AppEntity(
+    id = id,
     name = name,
     developer = developer,
     category = category,
@@ -35,9 +38,10 @@ fun App.toEntity(): AppEntity = AppEntity(
 )
 
 fun AppDetailsItem.toEntity(): AppDetailsItemEntity = AppDetailsItemEntity(
-    appName = appName,
+    id = id,
+    name = name,
     description = description,
     category = category,
-    icon = icon
+    iconUrl = iconUrl
 )
 

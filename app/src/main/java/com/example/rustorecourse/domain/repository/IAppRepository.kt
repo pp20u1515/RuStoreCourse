@@ -4,6 +4,6 @@ import com.example.rustorecourse.domain.model.App
 import com.example.rustorecourse.domain.model.AppDetailsItem
 
 interface IAppRepository {
-    suspend fun getApp(): App
-    suspend fun getListOfApps(): List<AppDetailsItem>
+    suspend fun getRemoteListOfApps(): Result<List<AppDetailsItem>>
+    suspend fun getRemoteApp(id: String): Result<App>
 }

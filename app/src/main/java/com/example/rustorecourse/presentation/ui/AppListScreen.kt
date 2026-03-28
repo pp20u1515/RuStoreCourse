@@ -54,7 +54,7 @@ fun AppDetails(
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(appDetails.icon)
+                .data(appDetails.iconUrl)
                 .build(),
             contentDescription = null,
             modifier = Modifier
@@ -65,9 +65,10 @@ fun AppDetails(
         )
         Column(modifier = modifier.padding(8.dp)) {
             Text(
-                text = appDetails.appName,
+                text = appDetails.name ?: "Без названия", // proverka
                 fontSize = 18.sp
             )
+
             Text(
                 text = appDetails.description,
                 fontSize = 16.sp
@@ -153,7 +154,7 @@ fun AppListContent(
         LazyColumn(
             modifier = Modifier.fillMaxSize()
         ) {
-            items(apps, key = { it.appName }) { app ->
+            items(apps, key = { it.id }) { app ->
                 AppDetails(
                     modifier = Modifier.fillMaxWidth(),
                     appDetails = app,
@@ -197,7 +198,7 @@ fun ErrorScreen(
 }
 
 @Composable
-fun AppListScreen(){
+fun AppListScreen(onAppClick: (String) -> Unit = {}){
     val navController = rememberNavController()
 
     NavHost(
@@ -206,14 +207,17 @@ fun AppListScreen(){
     ) {
         composable("mainScreen") {
             MainScreenContent(
-                onItemClick = {
-                    navController.navigate("appDetailsScreen")
+                onItemClick = { app ->
+                    onAppClick(app.id)
+                    navController.navigate("appDetailsScreen/${app.id}")
                 }
             )
         }
 
-        composable("appDetailsScreen") {
-            AppDetailsScreen()
+        composable("appDetailsScreen/{appId}") { backStackEntry ->
+            val appId = backStackEntry.arguments?.getString("appId") ?: ""
+
+            AppDetailsScreen(appId = appId)
         }
     }
 }
