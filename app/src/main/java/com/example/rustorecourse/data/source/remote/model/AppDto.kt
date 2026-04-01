@@ -1,4 +1,4 @@
-package com.example.rustorecourse.datasource.remote.model
+package com.example.rustorecourse.data.source.remote.model
 
 import com.example.rustorecourse.domain.model.Category
 import kotlinx.serialization.Serializable

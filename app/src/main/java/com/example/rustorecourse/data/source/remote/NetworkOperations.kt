@@ -1,12 +1,11 @@
-package com.example.rustorecourse.datasource.remote.dao
+package com.example.rustorecourse.data.source.remote
 
-import com.example.rustorecourse.datasource.remote.api.INetworkApi
-import com.example.rustorecourse.datasource.remote.model.AppDetailsItemDto
-import com.example.rustorecourse.datasource.remote.model.AppDto
+import com.example.rustorecourse.data.source.remote.model.AppDetailsItemDto
+import com.example.rustorecourse.data.source.remote.model.AppDto
 import javax.inject.Inject
 
-class NetworkDao @Inject constructor(
-    private val api: INetworkApi
+class NetworkOperations @Inject constructor(
+    private val api: INetworkOperations
 ) {
     suspend fun getListOfApps(): Result<List<AppDetailsItemDto>>{
         return try {

@@ -3,7 +3,7 @@ package com.example.rustorecourse.presentation.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rustorecourse.domain.model.App
-import com.example.rustorecourse.domain.usecase.GetRemoteAppUseCase
+import com.example.rustorecourse.domain.usecase.GetAppUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppDetailsScreenViewModel @Inject constructor(
-    private val getRemoteAppUseCase: GetRemoteAppUseCase
+    private val getRemoteAppUseCase: GetAppUseCase
 ): ViewModel() {
     private val _appDetailsState = MutableStateFlow<AppDetailsState>(AppDetailsState.Loading)
     val appDetailsState: StateFlow<AppDetailsState> = _appDetailsState.asStateFlow()
@@ -26,7 +26,7 @@ class AppDetailsScreenViewModel @Inject constructor(
 
                 _appDetailsState.value = when {
                     loadedApp.isSuccess ->{
-                        val app = loadedApp.getOrNull() ?: null
+                        val app = loadedApp.getOrNull()
 
                         if (app == null){
                             AppDetailsState.Error("Не удалось загрузить данные!")

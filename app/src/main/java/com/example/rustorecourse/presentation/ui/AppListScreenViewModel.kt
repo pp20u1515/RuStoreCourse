@@ -3,7 +3,7 @@ package com.example.rustorecourse.presentation.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rustorecourse.domain.model.AppDetailsItem
-import com.example.rustorecourse.domain.usecase.GetRemoteListOfAppsUseCase
+import com.example.rustorecourse.domain.usecase.GetListOfAppsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppListScreenViewModel @Inject constructor(
-    private val getRemoteListOfApss: GetRemoteListOfAppsUseCase
+    private val getRemoteListOfApss: GetListOfAppsUseCase
 ): ViewModel() {
 
     private val _appListScreenState = MutableStateFlow<AppListScreenState>(AppListScreenState.Loading)

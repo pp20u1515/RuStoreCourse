@@ -1,7 +1,7 @@
-package com.example.rustorecourse.datasource.remote.mapper
+package com.example.rustorecourse.data.source.remote.mapper
 
-import com.example.rustorecourse.datasource.remote.model.AppDetailsItemDto
-import com.example.rustorecourse.datasource.remote.model.AppDto
+import com.example.rustorecourse.data.source.remote.model.AppDetailsItemDto
+import com.example.rustorecourse.data.source.remote.model.AppDto
 import com.example.rustorecourse.domain.model.App
 import com.example.rustorecourse.domain.model.AppDetailsItem
 
