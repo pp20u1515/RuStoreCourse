@@ -1,16 +1,15 @@
-package com.example.rustorecourse.datasource.remote.service
+package com.example.rustorecourse.data.source.remote
 
-import com.example.rustorecourse.data.source.remote.service.INetworkDaoService
-import com.example.rustorecourse.datasource.remote.dao.NetworkDao
-import com.example.rustorecourse.datasource.remote.mapper.toDomain
-import com.example.rustorecourse.datasource.remote.mapper.toDomainList
+import com.example.rustorecourse.data.source.remote.mapper.toDomain
+import com.example.rustorecourse.data.source.remote.mapper.toDomainList
+import com.example.rustorecourse.data.source.remote.service.IAppRemoteSource
 import com.example.rustorecourse.domain.model.App
 import com.example.rustorecourse.domain.model.AppDetailsItem
 import javax.inject.Inject
 
 class NetworkDaoService @Inject constructor(
-    private val networkDao: NetworkDao
-): INetworkDaoService {
+    private val networkDao: NetworkOperations
+): IAppRemoteSource {
     override suspend fun getAppDetails(id: String): Result<App> {
         return networkDao.getAppDetails(id).mapCatching { dto ->
             dto.toDomain()

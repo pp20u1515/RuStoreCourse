@@ -1,4 +1,4 @@
-package com.example.rustorecourse.datasource.remote.model
+package com.example.rustorecourse.data.source.remote.model
 
 import kotlinx.serialization.Serializable
 

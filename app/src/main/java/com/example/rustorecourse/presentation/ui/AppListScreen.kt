@@ -92,6 +92,21 @@ fun MainScreenContent(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
+    LaunchedEffect(Unit) {
+        viewModel.event.collect { event ->
+            when (event) {
+                is AppListScreenViewModel.UIEvent.ShowSnackbar -> {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = event.message,
+                            duration = SnackbarDuration.Short
+                        )
+                    }
+                }
+            }
+        }
+    }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
@@ -104,12 +119,7 @@ fun MainScreenContent(
         ) {
             Toolbar(
                 onLogoClick = {
-                    scope.launch {
-                        snackbarHostState.showSnackbar(
-                            message = "Вы нажали на логотип RuStore",
-                            duration = SnackbarDuration.Short
-                        )
-                    }
+                    viewModel.onLogoClick()
                 }
             )
 
