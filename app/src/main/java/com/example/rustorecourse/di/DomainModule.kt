@@ -1,13 +1,6 @@
 package com.example.rustorecourse.di
 
-import com.example.rustorecourse.data.repository.AppRepository
-import com.example.rustorecourse.data.source.local.service.AppDaoService
-import com.example.rustorecourse.data.source.remote.service.INetworkDaoService
-import com.example.rustorecourse.domain.repository.IAppRepository
-import com.example.rustorecourse.domain.usecase.GetAppDetailsUseCase
-import com.example.rustorecourse.domain.usecase.GetRemoteListOfAppsUseCase
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
