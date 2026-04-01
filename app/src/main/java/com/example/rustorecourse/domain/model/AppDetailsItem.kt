@@ -1,8 +1,9 @@
 package com.example.rustorecourse.domain.model
 
 data class AppDetailsItem(
-    val appName: String,
+    val id: String,
+    val name: String?,
     val description: String,
     val category: String,
-    val icon: String
+    val iconUrl: String?
 )

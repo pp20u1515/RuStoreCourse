@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetAppUseCase @Inject constructor(
     private val appRepository: IAppRepository
 ) {
-    suspend operator fun invoke(): App{
-        return appRepository.getApp()
+    suspend operator fun invoke(id: String): Result<App>{
+        return appRepository.getRemoteApp(id)
     }
 }

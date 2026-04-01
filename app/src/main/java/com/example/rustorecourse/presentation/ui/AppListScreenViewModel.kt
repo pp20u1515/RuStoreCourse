@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppListScreenViewModel @Inject constructor(
-    private val getAppDetailsItemUseCase: GetListOfAppsUseCase
+    private val getRemoteListOfApss: GetListOfAppsUseCase
 ): ViewModel() {
 
     private val _appListScreenState = MutableStateFlow<AppListScreenState>(AppListScreenState.Loading)
@@ -30,8 +30,23 @@ class AppListScreenViewModel @Inject constructor(
         viewModelScope.launch {
             _appListScreenState.value = AppListScreenState.Loading
             try {
-                val listOfApps = getAppDetailsItemUseCase.invoke()
-                _appListScreenState.value = AppListScreenState.Success(listOfApps)
+                val listOfApps = getRemoteListOfApss.invoke()
+                _appListScreenState.value = when {
+                    listOfApps.isSuccess -> {
+                        val apps = listOfApps.getOrNull() ?: emptyList()
+
+                        if (apps.isEmpty()){
+                            AppListScreenState.Error("Список приложений пуст")
+                        }
+                        else{
+                            AppListScreenState.Success(apps)
+                        }
+                    }
+                    else -> {
+                        val errorMessage = listOfApps.exceptionOrNull()?.message ?: "Неизвестная ошибка"
+                        AppListScreenState.Error("Не удалось загрузить приложения: $errorMessage")
+                    }
+                }
             }catch (e: Exception){
                 _appListScreenState.value = AppListScreenState.Error("Не удалось загрузить приложения: ${e.message}")
             }

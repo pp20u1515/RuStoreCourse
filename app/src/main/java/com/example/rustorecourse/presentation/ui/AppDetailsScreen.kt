@@ -30,7 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.rustorecourse.R
 
 @Composable
-fun AppDetailsScreen() {
+fun AppDetailsScreen(appId: String) {
     val viewModel: AppDetailsScreenViewModel = hiltViewModel()
     val appDetailsState = viewModel.appDetailsState.collectAsState().value
 
@@ -39,8 +39,8 @@ fun AppDetailsScreen() {
 
     var descriptionCollapsed by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        viewModel.loadApp()
+    LaunchedEffect(appId) {
+        viewModel.loadApp(appId)
     }
 
     when (val state = appDetailsState) {
@@ -144,7 +144,7 @@ fun AppDetailsScreen() {
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Button(
-                        onClick = { viewModel.loadApp() }
+                        onClick = { viewModel.loadApp(appId) }
                     ) {
                         Text("Повторить")
                     }

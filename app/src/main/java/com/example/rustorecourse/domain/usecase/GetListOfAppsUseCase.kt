@@ -6,7 +6,7 @@ import com.example.rustorecourse.domain.repository.IAppRepository
 class GetListOfAppsUseCase(
     private val appRepository: IAppRepository
 ) {
-    suspend operator fun invoke(): List<AppDetailsItem>{
-        return appRepository.getListOfApps()
+    suspend operator fun invoke(): Result<List<AppDetailsItem>>{
+        return appRepository.getRemoteListOfApps()
     }
 }

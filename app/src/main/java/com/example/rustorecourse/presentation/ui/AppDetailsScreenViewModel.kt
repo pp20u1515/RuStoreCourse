@@ -13,17 +13,33 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppDetailsScreenViewModel @Inject constructor(
-    private val getAppUseCase: GetAppUseCase
+    private val getRemoteAppUseCase: GetAppUseCase
 ): ViewModel() {
     private val _appDetailsState = MutableStateFlow<AppDetailsState>(AppDetailsState.Loading)
     val appDetailsState: StateFlow<AppDetailsState> = _appDetailsState.asStateFlow()
 
-    fun loadApp() {
+    fun loadApp(id: String) {
         viewModelScope.launch {
             _appDetailsState.value = AppDetailsState.Loading
             try {
-                val loadedApp = getAppUseCase.invoke()
-                _appDetailsState.value = AppDetailsState.Success(loadedApp)
+                val loadedApp = getRemoteAppUseCase.invoke(id)
+
+                _appDetailsState.value = when {
+                    loadedApp.isSuccess ->{
+                        val app = loadedApp.getOrNull()
+
+                        if (app == null){
+                            AppDetailsState.Error("Не удалось загрузить данные!")
+                        }
+                        else{
+                            AppDetailsState.Success(app)
+                        }
+                    }
+                    else -> {
+                        val errorMessage = loadedApp.exceptionOrNull()?.message ?: "Неизвестная ошибка"
+                        AppDetailsState.Error("Не удалось загрузить приложение: $errorMessage")
+                    }
+                }
             } catch (e: Exception) {
                 _appDetailsState.value = AppDetailsState.Error("Не удалось загрузить приложение: ${e.message}")
             }

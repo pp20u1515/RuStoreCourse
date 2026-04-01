@@ -1,6 +1,10 @@
-package com.example.rustorecourse.domain.model
+package com.example.rustorecourse.data.source.remote.model
 
-data class App(
+import com.example.rustorecourse.domain.model.Category
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class AppDto (
     val id: String,
     val name: String,
     val developer: String,
