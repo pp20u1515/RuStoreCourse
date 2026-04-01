@@ -1,11 +1,11 @@
-package com.example.rustorecourse.datasource.remote.api
+package com.example.rustorecourse.data.source.remote
 
-import com.example.rustorecourse.datasource.remote.model.AppDetailsItemDto
-import com.example.rustorecourse.datasource.remote.model.AppDto
+import com.example.rustorecourse.data.source.remote.model.AppDetailsItemDto
+import com.example.rustorecourse.data.source.remote.model.AppDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-interface INetworkApi {
+interface INetworkOperations {
     @GET("catalog")
     suspend fun getListOfApps(): List<AppDetailsItemDto>
 
