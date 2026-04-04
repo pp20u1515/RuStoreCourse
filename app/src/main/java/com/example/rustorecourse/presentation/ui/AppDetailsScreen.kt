@@ -15,7 +15,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,10 +37,6 @@ fun AppDetailsScreen(appId: String) {
     val underDevelopmentText = stringResource(R.string.under_developement)
 
     var descriptionCollapsed by remember { mutableStateOf(false) }
-
-    LaunchedEffect(appId) {
-        viewModel.loadApp(appId)
-    }
 
     when (val state = appDetailsState) {
         is AppDetailsScreenViewModel.AppDetailsState.Loading -> {
