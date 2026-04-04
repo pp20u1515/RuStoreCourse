@@ -1,27 +1,23 @@
 package com.example.rustorecourse.data.source.remote
 
-import com.example.rustorecourse.data.source.remote.model.AppDetailsItemDto
-import com.example.rustorecourse.data.source.remote.model.AppDto
+import com.example.rustorecourse.data.source.remote.mapper.toDomain
+import com.example.rustorecourse.data.source.remote.mapper.toDomainList
+import com.example.rustorecourse.domain.model.App
+import com.example.rustorecourse.domain.model.AppDetailsItem
 import javax.inject.Inject
 
 class NetworkOperations @Inject constructor(
-    private val api: INetworkOperations
-) {
-    suspend fun getListOfApps(): Result<List<AppDetailsItemDto>>{
-        return try {
-            val response = api.getListOfApps()
-            Result.success(response)
-        } catch (e: Exception){
-            Result.failure(e)
+    private val networkDataSource: NetworkDataSource
+): INetworkOperations {
+    override suspend fun getAppDetails(id: String): Result<App> {
+        return networkDataSource.getAppDetails(id).mapCatching { dto ->
+            dto.toDomain()
         }
     }
 
-    suspend fun getAppDetails(id: String): Result<AppDto>{
-        return try {
-            val response = api.getAppDetails(id)
-            Result.success(response)
-        } catch (e: Exception){
-            Result.failure(e)
+    override suspend fun getListOfApps(): Result<List<AppDetailsItem>> {
+        return networkDataSource.getListOfApps().mapCatching { dtoList ->
+            dtoList.toDomainList()
         }
     }
 }

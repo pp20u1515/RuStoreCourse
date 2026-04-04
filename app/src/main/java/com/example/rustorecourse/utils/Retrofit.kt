@@ -1,6 +1,6 @@
 package com.example.rustorecourse.utils
 
-import com.example.rustorecourse.data.source.remote.INetworkOperations
+import com.example.rustorecourse.data.source.remote.INetworkDataSource
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -12,5 +12,5 @@ object RetrofitInvoker {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    val apiService: INetworkOperations = retrofit.create(INetworkOperations::class.java)
+    val apiService: INetworkDataSource = retrofit.create(INetworkDataSource::class.java)
 }

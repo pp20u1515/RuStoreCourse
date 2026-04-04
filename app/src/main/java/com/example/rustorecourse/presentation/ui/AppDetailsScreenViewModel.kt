@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rustorecourse.domain.model.App
-import com.example.rustorecourse.domain.usecase.GetAppUseCase
+import com.example.rustorecourse.domain.usecase.GetAppDetailsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppDetailsScreenViewModel @Inject constructor(
-    private val getRemoteAppUseCase: GetAppUseCase
+    private val getLocalAppDetailsUseCase: GetAppDetailsUseCase,
+    private val savedStateHandle: SavedStateHandle
 ): ViewModel() {
     private val _appDetailsState = MutableStateFlow<AppDetailsState>(AppDetailsState.Loading)
     val appDetailsState: StateFlow<AppDetailsState> = _appDetailsState.asStateFlow()
@@ -30,24 +31,18 @@ class AppDetailsScreenViewModel @Inject constructor(
     fun loadApp(id: String) {
         viewModelScope.launch {
             _appDetailsState.value = AppDetailsState.Loading
-            try {
-                val loadedApp = getRemoteAppUseCase.invoke(id)
 
-                _appDetailsState.value = when {
-                    loadedApp.isSuccess ->{
-                        val app = loadedApp.getOrNull()
+            val loadedApp = getLocalAppDetailsUseCase.invoke(id).getOrNull()
 
-                        if (app == null){
-                            AppDetailsState.Error("Не удалось загрузить данные!")
-                        }
-                        else{
-                            AppDetailsState.Success(app)
-                        }
-                    }
-                    else -> {
-                        val errorMessage = loadedApp.exceptionOrNull()?.message ?: "Неизвестная ошибка"
-                        AppDetailsState.Error("Не удалось загрузить приложение: $errorMessage")
-                    }
+            _appDetailsState.value = when {
+                loadedApp == null -> {
+                    AppDetailsState.Error("Не удалось загрузить приложение!")
+                }
+                loadedApp != null -> {
+                    AppDetailsState.Success(loadedApp)
+                }
+                else -> {
+                    AppDetailsState.Error("Не удалось загрузить данные!")
                 }
             }
         }

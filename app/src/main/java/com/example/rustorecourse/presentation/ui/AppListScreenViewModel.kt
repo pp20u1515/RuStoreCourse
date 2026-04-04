@@ -19,9 +19,6 @@ class AppListScreenViewModel @Inject constructor(
     private val _appListScreenState = MutableStateFlow<AppListScreenState>(AppListScreenState.Loading)
     val appListScreenState: StateFlow<AppListScreenState> = _appListScreenState.asStateFlow()
 
-    private val _event = MutableSharedFlow<UIEvent>(replay = 1)
-    val event: SharedFlow<UIEvent> = _event.asSharedFlow()
-
     init {
         loadApps()
     }
@@ -57,13 +54,5 @@ class AppListScreenViewModel @Inject constructor(
         object Loading: AppListScreenState()
         data class Success(val listOfApps: List<AppDetailsItem>): AppListScreenState()
         data class Error(val message: String): AppListScreenState()
-    }
-
-    fun onLogoClick() {
-        _event.tryEmit(UIEvent.ShowSnackbar("Вы нажали на логотип RuStore"))
-    }
-
-    sealed class UIEvent {
-        data class ShowSnackbar(val message: String) : UIEvent()
     }
 }

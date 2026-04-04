@@ -1,14 +1,10 @@
 package com.example.rustorecourse.data.source.remote
 
-import com.example.rustorecourse.data.source.remote.model.AppDetailsItemDto
-import com.example.rustorecourse.data.source.remote.model.AppDto
-import retrofit2.http.GET
-import retrofit2.http.Path
+import com.example.rustorecourse.domain.model.App
+import com.example.rustorecourse.domain.model.AppDetailsItem
 
 interface INetworkOperations {
-    @GET("catalog")
-    suspend fun getListOfApps(): List<AppDetailsItemDto>
+    suspend fun getListOfApps(): Result<List<AppDetailsItem>>
 
-    @GET("catalog/{id}")
-    suspend fun getAppDetails(@Path("id") id: String): AppDto
+    suspend fun getAppDetails(id: String): Result<App>
 }

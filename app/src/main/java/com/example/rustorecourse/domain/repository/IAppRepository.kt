@@ -8,5 +8,5 @@ interface IAppRepository {
     suspend fun getRemoteListOfApps(): Result<List<AppDetailsItem>>
     suspend fun getRemoteApp(id: String): Result<App>
 
-    suspend fun getLocalApp(id: String): Result<App>
+    suspend fun getApp(id: String): Result<App>
 }

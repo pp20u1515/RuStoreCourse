@@ -1,6 +1,9 @@
 package com.example.rustorecourse.data.repository
 
-import com.example.rustorecourse.data.source.remote.service.IAppRemoteSource
+import com.example.rustorecourse.data.source.local.mapper.toDomain
+import com.example.rustorecourse.data.source.local.mapper.toEntity
+import com.example.rustorecourse.data.source.local.service.AppDaoService
+import com.example.rustorecourse.data.source.remote.INetworkOperations
 import com.example.rustorecourse.domain.model.App
 import com.example.rustorecourse.domain.model.AppDetailsItem
 import com.example.rustorecourse.domain.repository.IAppRepository
@@ -10,21 +13,23 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class AppRepository @Inject constructor(
-    private val networkDaoService: IAppRemoteSource
+    private val appNetwork: INetworkOperations,
+    private val localDaoService: AppDaoService,
+    private val ioDispatcher: CoroutineDispatcher
 ): IAppRepository {
     override suspend fun getRemoteListOfApps(): Result<List<AppDetailsItem>>{
-        return networkDaoService.getListOfApps()
+        return appNetwork.getListOfApps()
     }
 
     override suspend fun getRemoteApp(id: String): Result<App>{
-        return networkDaoService.getAppDetails(id)
+        return appNetwork.getAppDetails(id)
     }
 
-    override suspend fun getLocalApp(id: String): Result<App> {
+    override suspend fun getApp(id: String): Result<App> {
         val localEntity = localDaoService.getLocalApp(id).firstOrNull()
 
         if (localEntity == null){
-            val remoteResult = networkDaoService.getAppDetails(id)
+            val remoteResult = appNetwork.getAppDetails(id)
             val remoteEntity = remoteResult.getOrNull()
 
             if (remoteEntity != null){

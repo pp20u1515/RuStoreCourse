@@ -8,6 +8,6 @@ class GetAppDetailsUseCase @Inject constructor(
     private val appRepository: IAppRepository
 ) {
     suspend operator fun invoke(id: String): Result<App> {
-        return appRepository.getLocalApp(id)
+        return appRepository.getApp(id)
     }
 }
