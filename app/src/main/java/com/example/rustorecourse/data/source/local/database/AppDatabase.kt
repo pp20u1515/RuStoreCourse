@@ -7,7 +7,8 @@ import com.example.rustorecourse.data.source.local.entity.AppEntity
 
 @Database(
     entities = [AppEntity::class],
-    version = 1,
+    version = 2,
+    exportSchema = true
 )
 @TypeConverters(CategoryConverter::class)
 abstract class AppDatabase : RoomDatabase() {
