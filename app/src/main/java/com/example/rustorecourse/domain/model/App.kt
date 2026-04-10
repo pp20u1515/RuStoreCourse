@@ -10,4 +10,6 @@ data class App(
     val iconUrl: String,
     val screenshotUrlList: List<String>,
     val description: String,
+    val lastUpdated: Long = System.currentTimeMillis(),
+    val isInWishList: Boolean = false
 )
