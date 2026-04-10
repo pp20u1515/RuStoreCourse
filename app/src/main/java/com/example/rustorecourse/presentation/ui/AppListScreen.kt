@@ -84,7 +84,8 @@ fun AppDetails(
 
 @Composable
 fun MainScreenContent(
-    onItemClick: (AppDetailsItem) -> Unit
+    onItemClick: (AppDetailsItem) -> Unit,
+    onHeartClick: () -> Unit = {}
 ){
     val viewModel: AppListScreenViewModel = hiltViewModel()
     val appListScreenState by viewModel.appListScreenState.collectAsState()
@@ -103,6 +104,7 @@ fun MainScreenContent(
                 .background(Color(0xFF0077FF))
         ) {
             Toolbar(
+                appId = "",
                 onLogoClick = {
                     scope.launch {
                         snackbarHostState.showSnackbar(
@@ -110,7 +112,8 @@ fun MainScreenContent(
                             duration = SnackbarDuration.Short
                         )
                     }
-                }
+                },
+                onHeartClick = onHeartClick
             )
 
             when (appListScreenState) {
